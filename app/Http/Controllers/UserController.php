@@ -15,11 +15,14 @@ class UserController extends BaseController
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         //
-        $users=User::orderBy("id","DESC")->get();
-        return $users;
+        $users=User::orderBy("id","DESC");
+        if($request->get("user_id")){
+            $users=$users->where('id',"!=",$request->get("user_id"));
+        }
+        return $users->get();
     }
 
     /**
