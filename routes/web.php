@@ -16,3 +16,8 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+
+Route::post('/login', 'App\Http\Controllers\ApiAuthController@login')->name('login.api');
+Route::apiResource('users', 'App\Http\Controllers\UserController');
+Route::apiResource('customers', 'App\Http\Controllers\CustomerController');
