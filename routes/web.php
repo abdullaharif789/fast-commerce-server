@@ -21,3 +21,4 @@ Route::get('/', function () {
 Route::post('/login', 'App\Http\Controllers\ApiAuthController@login')->name('login.api');
 Route::apiResource('users', 'App\Http\Controllers\UserController');
 Route::apiResource('customers', 'App\Http\Controllers\CustomerController');
+Route::apiResource('registrations', 'App\Http\Controllers\RegistrationController');

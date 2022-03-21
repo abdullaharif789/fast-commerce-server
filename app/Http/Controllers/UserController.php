@@ -8,6 +8,10 @@ use App\Models\Customer;
 use Validator;
 use Illuminate\Support\Facades\Hash;
 
+Validator::extend('remove_extra_spaces', function($attr, $value){
+    return preg_match('/^\S*$/u', $value);
+});
+
 class UserController extends BaseController
 {
     /**
@@ -40,7 +44,7 @@ class UserController extends BaseController
             'last_name' => 'required',
             'password' => 'required',
             'role' => 'required',
-            'username' => 'required|unique:users',
+            'username' => 'required|remove_extra_spaces|unique:users',
         ]);
        
         if($validator->fails()){
@@ -82,7 +86,7 @@ class UserController extends BaseController
            'first_name' => 'required',
            'last_name' => 'required',
            'role' => 'required',
-           'username' => 'required|unique:users,username,'.$user->id,
+           'username' => 'required|remove_extra_spaces|unique:users,username,'.$user->id,
         ]);
         
         if($validator->fails()){
@@ -93,6 +97,7 @@ class UserController extends BaseController
         $user->last_name=$input['last_name'];
         $user->role=$input['role'];
         $user->username=$input['username'];
+        $user->region=$input['region']?$input['region']:null;
         if(isset($input['password'])){
             $user->password=Hash::make($input['password']);
         }
