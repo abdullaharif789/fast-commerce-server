@@ -15,7 +15,7 @@ class AddRegionToUsersTable extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             //
-            $table->string('region')->nullable();
+            $table->string('region')->nullable()->default("lahore");
         });
     }
 
