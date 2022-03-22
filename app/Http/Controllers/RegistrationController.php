@@ -76,8 +76,7 @@ class RegistrationController extends BaseController
      */
     public function show($id)
     {
-        //
-        $registration = Registration::with("user")->find($id);
+        $registration = Registration::find($id);
         if (is_null($registration)) {
             return $this->sendError('Registration not found.');
         }
