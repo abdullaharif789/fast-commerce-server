@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Customer;
+use App\Http\Resources\CustomerResource;
 use Validator;
 
 class CustomerController extends BaseController
@@ -30,7 +31,7 @@ class CustomerController extends BaseController
             $range=json_decode($request->get("range"));
             $users=$users->offset($range[0])->limit($range[1]-$range[0]+1);
         }
-        return $users->get();
+        return CustomerResource::collection($users->get());
     }
 
     /**
@@ -50,12 +51,23 @@ class CustomerController extends BaseController
             'date'=> 'required',
             'fee'=> 'required',
             'contract_duration'=> 'required',
+            'document'=> 'required',
         ]);
-       
+
         if($validator->fails()){
-            return $this->sendError('Validation Error.', $validator->errors()); 
+            return $this->sendError('Validation Error.', $validator->errors());
         }
-        
+        // Copy Document
+        if($request->document){
+            $document = $request->document;
+            list($type, $document) = explode(';', $document);
+            list(, $document) = explode(',', $document);
+            $document = base64_decode($document);
+            $type=explode("/",$type)[1];
+            $new_document_path=uniqid().".".$type;
+            file_put_contents('storage/documents/'.$new_document_path, $document);
+        }
+        $input['document']=$new_document_path;
         $customer = Customer::create($input);
         return $customer;
     }
@@ -73,7 +85,7 @@ class CustomerController extends BaseController
         if (is_null($customer)) {
             return $this->sendError('Category not found.');
         }
-   
+
         return $customer;
     }
 
@@ -96,9 +108,9 @@ class CustomerController extends BaseController
             'fee'=> 'required',
             'contract_duration'=> 'required',
         ]);
-        
+
         if($validator->fails()){
-            return $this->sendError('Validation Error.', $validator->errors());       
+            return $this->sendError('Validation Error.', $validator->errors());
         }
 
         $customer->name=$input['name'];
