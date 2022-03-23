@@ -58,6 +58,7 @@ class RegistrationController extends BaseController
             'course'=> 'required',
             'fee'=> 'required',
             'transaction_id'=> 'required',
+            'national_identity'=> 'required',
         ]);
        
         if($validator->fails()){

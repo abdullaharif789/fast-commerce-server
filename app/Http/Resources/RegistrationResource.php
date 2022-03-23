@@ -24,7 +24,8 @@ class RegistrationResource extends JsonResource
             'course' => ucwords(str_replace("_"," ",$this->course)),
             'transaction_id' => $this->transaction_id,
             'fee' => $this->fee,
-            'registered_at' => $this->created_at
+            'registered_at' => $this->created_at,
+            'national_identity' => $this->national_identity ? $this->national_identity : "-"
         ];
     }
 }

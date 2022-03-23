@@ -17,6 +17,7 @@ class Registration extends Model
     'region',
     'course',
     'fee',
-    'transaction_id'
+    'transaction_id',
+    'national_identity'
     ];
 }
