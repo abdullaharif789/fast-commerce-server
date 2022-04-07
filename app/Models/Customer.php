@@ -17,7 +17,9 @@ class Customer extends Model
         'fee',
         'contract_duration',
         'user_id',
-        'document'
+        'document',
+        'advance',
+        'sharing'
     ];
     public function user()
     {

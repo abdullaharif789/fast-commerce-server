@@ -22,3 +22,4 @@ Route::post('/login', 'App\Http\Controllers\ApiAuthController@login')->name('log
 Route::apiResource('users', 'App\Http\Controllers\UserController');
 Route::apiResource('customers', 'App\Http\Controllers\CustomerController');
 Route::apiResource('registrations', 'App\Http\Controllers\RegistrationController');
+Route::apiResource('payments', 'App\Http\Controllers\PaymentController');

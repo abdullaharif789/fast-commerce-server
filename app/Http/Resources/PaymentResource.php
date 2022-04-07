@@ -1,10 +1,11 @@
 <?php
 
 namespace App\Http\Resources;
+use Carbon\Carbon;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class CustomerResource extends JsonResource
+class PaymentResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -14,21 +15,18 @@ class CustomerResource extends JsonResource
      */
     public function toArray($request)
     {
+        $date = Carbon::parse($this->date);
+        $now = Carbon::now();
+        $diff = $date->diffInDays($now);
         return[
             'id' => $this->id,
             'name' => $this->name,
             'country' => $this->country,
-            'service' => $this->service,
             'date' => $this->date,
+            'remaining_days' => 30 - $diff,
             'fee' => $this->fee,
             'advance' => $this->advance,
             'sharing' => $this->sharing,
-            'contract_duration' => $this->contract_duration,
-            'user_id' => $this->user_id,
-            'created_at' => $this->created_at,
-            'document' => $this->document ? url("storage/documents/".$this->document) : null,
-            'user' => $this->user
-
         ];
     }
 }

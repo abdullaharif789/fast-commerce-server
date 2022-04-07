@@ -49,14 +49,24 @@ class CustomerController extends BaseController
             'country'=> 'required',
             'service'=> 'required',
             'date'=> 'required',
-            'fee'=> 'required',
-            'contract_duration'=> 'required',
-            'document'=> 'required',
+            'advance'=> 'required|numeric|min:0|not_in:0',
+            'fee'=> 'numeric|min:0',
+            'sharing'=> 'numeric|min:0|max:100',
+            'contract_duration'=> 'required|numeric|min:0',
         ]);
 
         if($validator->fails()){
             return $this->sendError('Validation Error.', $validator->errors());
         }
+
+        if(!isset($input['fee']) | !isset($input['sharing'])){
+            return $this->sendError("Please provide monthly fee or sharing.", []);
+        }
+
+        if(isset($input['fee']) & isset($input['sharing'])){
+            $input['sharing'] = 0;
+        }
+        $new_document_path = null;
         // Copy Document
         if($request->document){
             $document = $request->document;
