@@ -21,6 +21,10 @@ class PaymentController extends Controller
         if($request->get("user_id")){
             $users=$users->where('user_id',$request->get("user_id"));
         }
+        if($request->get("sort")){
+            $sort=json_decode($request->get("sort"));
+            $users = $users->orderBy($sort[0],$sort[1]);
+        }
         if($request->get("range")){
             $range=json_decode($request->get("range"));
             $users=$users->offset($range[0])->limit($range[1]-$range[0]+1);
