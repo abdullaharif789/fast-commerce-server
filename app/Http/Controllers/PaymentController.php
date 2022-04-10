@@ -11,7 +11,7 @@ class PaymentController extends Controller
 {
     public function index(Request $request)
     {
-        $users=Customer::with("user")->whereRaw("DATEDIFF(NOW() ,`date`) > 27")->orderBy("id","DESC");
+        $users=Customer::with("user")->whereRaw("DATEDIFF(NOW() ,`date`) > 27");
             if($request->get('filter')){
             $filter=json_decode($request->get("filter"));
             if(isset($filter->name)){
