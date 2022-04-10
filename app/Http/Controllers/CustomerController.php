@@ -49,9 +49,9 @@ class CustomerController extends BaseController
             'country'=> 'required',
             'service'=> 'required',
             'date'=> 'required',
-            'advance'=> 'required|numeric|min:0|not_in:0',
-            'fee'=> 'numeric|min:0',
-            'sharing'=> 'numeric|min:0|max:100',
+            'advance'=> 'required|numeric|min:0',
+            'fee'=> 'required|numeric|min:0',
+            'sharing'=> 'required|numeric|min:0|max:100',
             'contract_duration'=> 'required|numeric|min:0',
         ]);
 
@@ -59,13 +59,6 @@ class CustomerController extends BaseController
             return $this->sendError('Validation Error.', $validator->errors());
         }
 
-        if(!isset($input['fee']) | !isset($input['sharing'])){
-            return $this->sendError("Please provide monthly fee or sharing.", []);
-        }
-
-        if(isset($input['fee']) & isset($input['sharing'])){
-            $input['sharing'] = 0;
-        }
         $new_document_path = null;
         // Copy Document
         if($request->document){
@@ -115,7 +108,9 @@ class CustomerController extends BaseController
             'country'=> 'required',
             'service'=> 'required',
             'date'=> 'required',
-            'fee'=> 'required',
+            'advance'=> 'required|numeric|min:0',
+            'fee'=> 'required|numeric|min:0',
+            'sharing'=> 'required|numeric|min:0|max:100',
             'contract_duration'=> 'required',
         ]);
 
@@ -128,6 +123,8 @@ class CustomerController extends BaseController
         $customer->service=$input['service'];
         $customer->date=$input['date'];
         $customer->fee=$input['fee'];
+        $customer->advance=$input['advance'];
+        $customer->sharing=$input['sharing'];
         $customer->contract_duration=$input['contract_duration'];
         $customer->save();
 
