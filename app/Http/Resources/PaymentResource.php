@@ -15,15 +15,14 @@ class PaymentResource extends JsonResource
      */
     public function toArray($request)
     {
-        $date = Carbon::parse($this->date);
-        $now = Carbon::now();
-        $diff = $date->diffInDays($now);
+        $date_day = Carbon::parse($this->date)->day;
+        $now_day = Carbon::now()->day;
         return[
             'id' => $this->id,
             'name' => $this->name,
             'country' => $this->country,
             'date' => $this->date,
-            'remaining_days' => (30 - $diff) % 30,
+            'remaining_days' => $date_day - $now_day,
             'fee' => $this->fee,
             'advance' => $this->advance,
             'sharing' => $this->sharing,

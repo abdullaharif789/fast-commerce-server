@@ -2,6 +2,7 @@
 
 use App\Models\Customer;
 use Illuminate\Support\Facades\Route;
+use Carbon\Carbon;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,10 +26,12 @@ Route::apiResource('customers', 'App\Http\Controllers\CustomerController');
 Route::apiResource('registrations', 'App\Http\Controllers\RegistrationController');
 Route::apiResource('payments', 'App\Http\Controllers\PaymentController');
 Route::get('/payment_email', function(){
+    $currentDay = Carbon::now()->day;
     $from = "admin@fcportal.com";
     $to = "abdullaharif789@gmail.com";
     $subject = "Payment Trigger";
-    foreach(Customer::all() as $customer){
+    $customers=Customer::with("user")->where("payment_verified",false)->whereRaw("day(`date`) - ".$currentDay." <= 3")->get();
+    foreach($customers as $customer){
         if($customer->payment_verified==false){
             $message = "Dear ".$customer->name.",<br>
             Your payment is not verified. Please verify your payment.<br>

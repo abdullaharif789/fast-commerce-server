@@ -6,13 +6,15 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Customer;
 use App\Http\Resources\PaymentResource;
+use Carbon\Carbon;
 
 class PaymentController extends Controller
 {
     public function index(Request $request)
     {
-        $users=Customer::with("user")->whereRaw("DATEDIFF(NOW() ,`date`) > 27");
-            if($request->get('filter')){
+        $currentDay = Carbon::now()->day;
+        $users=Customer::with("user")->where("payment_verified",false)->whereRaw("day(`date`) - ".$currentDay." <= 3");
+        if($request->get('filter')){
             $filter=json_decode($request->get("filter"));
             if(isset($filter->name)){
                 $users=$users->where('name','like',"%".strtolower($filter->name)."%");
