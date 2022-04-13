@@ -26,14 +26,15 @@ Route::apiResource('registrations', 'App\Http\Controllers\RegistrationController
 Route::apiResource('payments', 'App\Http\Controllers\PaymentController');
 Route::get('/payment_email', function(){
     $from = "admin@fcportal.com";
-    $to = "abdullaharif789@gmail.com";
+    $to = "admin@fcportal.com";
     $subject = "Payment Trigger";
-    $message = "Test Name : ".Customer::find(1)->name;
-    $headers = "From:" . $from;
-    if(mail($to,$subject,$message, $headers)) {
-        echo "The email message was sent.";
-    } else {
-        echo "The email message was not sent.";
+    foreach(Customer::all() as $customer){
+        if($customer->payment_verified==false){
+            $message = "Dear ".$customer->name.",<br>
+            Your payment is not verified. Please verify your payment.<br>
+            Thank you.";
+            $headers = "From: $from";
+            mail($to,$subject,$message,$headers);
+        }
     }
-
 });
