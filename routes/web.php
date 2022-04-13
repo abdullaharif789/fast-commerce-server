@@ -34,7 +34,12 @@ Route::get('/payment_email', function(){
             Your payment is not verified. Please verify your payment.<br>
             Thank you.";
             $headers = "From: $from";
-            mail($to,$subject,$message,$headers);
+            if(mail($to,$subject,$message,$headers)){
+                echo "email sent to ".$customer->name."<br>";
+            }
+            else{
+                echo "email not sent to ".$customer->name."<br>";
+            }
         }
     }
 });
