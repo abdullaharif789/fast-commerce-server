@@ -89,7 +89,7 @@ class CustomerController extends BaseController
             return $this->sendError('Category not found.');
         }
 
-        return $customer;
+        return new CustomerResource($customer);
     }
 
     /**
@@ -112,6 +112,7 @@ class CustomerController extends BaseController
             'fee'=> 'required|numeric|min:0',
             'sharing'=> 'required|numeric|min:0|max:100',
             'contract_duration'=> 'required',
+            'payment_verified'=> 'required',
         ]);
 
         if($validator->fails()){
@@ -126,6 +127,7 @@ class CustomerController extends BaseController
         $customer->advance=$input['advance'];
         $customer->sharing=$input['sharing'];
         $customer->contract_duration=$input['contract_duration'];
+        $customer->payment_verified = isset($input['payment_verified']) && $input['payment_verified'] == "Yes" ? true:false;
         $customer->save();
 
         return $customer;

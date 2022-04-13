@@ -19,7 +19,8 @@ class Customer extends Model
         'user_id',
         'document',
         'advance',
-        'sharing'
+        'sharing',
+        'payment_verified'
     ];
     public function user()
     {
