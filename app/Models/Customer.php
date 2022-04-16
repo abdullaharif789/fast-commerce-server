@@ -20,7 +20,8 @@ class Customer extends Model
         'document',
         'advance',
         'sharing',
-        'payment_verified'
+        'payment_verified',
+        'company'
     ];
     public function user()
     {

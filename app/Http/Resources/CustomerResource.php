@@ -20,6 +20,7 @@ class CustomerResource extends JsonResource
             'country' => $this->country,
             'service' => $this->service,
             'date' => $this->date,
+            'company'=> $this->company,
             'fee' => $this->fee,
             'advance' => $this->advance,
             'sharing' => $this->sharing,

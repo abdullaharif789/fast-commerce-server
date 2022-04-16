@@ -18,14 +18,17 @@ class CustomerController extends BaseController
     {
         //
         $users=Customer::with("user");
+        $count=$users->get()->count();
         if($request->get('filter')){
             $filter=json_decode($request->get("filter"));
             if(isset($filter->name)){
                 $users=$users->where('name','like',"%".strtolower($filter->name)."%");
             }
+            $count=$users->get()->count();
         }
         if($request->get("user_id")){
             $users=$users->where('user_id',$request->get("user_id"));
+            $count=$users->get()->count();
         }
         if($request->get("sort")){
             $sort=json_decode($request->get("sort"));
@@ -35,7 +38,7 @@ class CustomerController extends BaseController
             $range=json_decode($request->get("range"));
             $users=$users->offset($range[0])->limit($range[1]-$range[0]+1);
         }
-        return CustomerResource::collection($users->get());
+        return $this->sendResponse(CustomerResource::collection($users->get()),$count);
     }
 
     /**
@@ -53,6 +56,7 @@ class CustomerController extends BaseController
             'country'=> 'required',
             'service'=> 'required',
             'date'=> 'required',
+            'company'=> 'required',
             'advance'=> 'required|numeric|min:0',
             'fee'=> 'required|numeric|min:0',
             'sharing'=> 'required|numeric|min:0|max:100',
@@ -112,6 +116,7 @@ class CustomerController extends BaseController
             'country'=> 'required',
             'service'=> 'required',
             'date'=> 'required',
+            'company'=> 'required',
             'advance'=> 'required|numeric|min:0',
             'fee'=> 'required|numeric|min:0',
             'sharing'=> 'required|numeric|min:0|max:100',
@@ -129,6 +134,7 @@ class CustomerController extends BaseController
         $customer->date=$input['date'];
         $customer->fee=$input['fee'];
         $customer->advance=$input['advance'];
+        $customer->company=$input['company'];
         $customer->sharing=$input['sharing'];
         $customer->contract_duration=$input['contract_duration'];
         $customer->payment_verified = isset($input['payment_verified']) && $input['payment_verified'] == "Yes" ? true:false;

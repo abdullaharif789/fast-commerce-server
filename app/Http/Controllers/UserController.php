@@ -23,10 +23,20 @@ class UserController extends BaseController
     {
         //
         $users=User::orderBy("id","DESC");
+        $count=$users->get()->count();
         if($request->get("user_id")){
             $users=$users->where('id',"!=",$request->get("user_id"));
+            $count=$users->get()->count();
         }
-        return $users->get();
+        if($request->get("sort")){
+            $sort=json_decode($request->get("sort"));
+            $users = $users->orderBy($sort[0],$sort[1]);
+        }
+        if($request->get("range")){
+            $range=json_decode($request->get("range"));
+            $users=$users->offset($range[0])->limit($range[1]-$range[0]+1);
+        }
+        return $this->sendResponse($users->get(),$count);
     }
 
     /**
@@ -46,9 +56,9 @@ class UserController extends BaseController
             'role' => 'required',
             'username' => 'required|remove_extra_spaces|unique:users',
         ]);
-       
+
         if($validator->fails()){
-            return $this->sendError('Validation Error.', $validator->errors()); 
+            return $this->sendError('Validation Error.', $validator->errors());
         }
         $input['password']=Hash::make($input['password']);
         $user = User::create($input);
@@ -88,9 +98,9 @@ class UserController extends BaseController
            'role' => 'required',
            'username' => 'required|remove_extra_spaces|unique:users,username,'.$user->id,
         ]);
-        
+
         if($validator->fails()){
-            return $this->sendError('Validation Error.', $validator->errors());       
+            return $this->sendError('Validation Error.', $validator->errors());
         }
 
         $user->first_name=$input['first_name'];
