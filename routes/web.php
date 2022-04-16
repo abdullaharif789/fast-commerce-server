@@ -28,8 +28,8 @@ Route::apiResource('payments', 'App\Http\Controllers\PaymentController');
 Route::get('/payment_email', function(){
     $currentDay = Carbon::now()->day;
     $from = "admin@fcportal.com";
-    $to = "abdullaharif789@gmail.com";
-    $subject = "Payment Trigger";
+    $to = "ahmadkhan_03@yahoo.com";
+    $subject = "Payment Trigger ".date("d-M-Y");
     $customers=Customer::with("user")->where("payment_verified",false)->whereRaw("day(`date`) - ".$currentDay." <= 3")->get();
     foreach($customers as $customer){
         if($customer->payment_verified==false){

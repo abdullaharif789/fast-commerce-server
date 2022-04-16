@@ -17,7 +17,7 @@ class CustomerController extends BaseController
     public function index(Request $request)
     {
         //
-        $users=Customer::with("user")->orderBy("id","DESC");
+        $users=Customer::with("user");
         if($request->get('filter')){
             $filter=json_decode($request->get("filter"));
             if(isset($filter->name)){
@@ -26,6 +26,10 @@ class CustomerController extends BaseController
         }
         if($request->get("user_id")){
             $users=$users->where('user_id',$request->get("user_id"));
+        }
+        if($request->get("sort")){
+            $sort=json_decode($request->get("sort"));
+            $users = $users->orderBy($sort[0],$sort[1]);
         }
         if($request->get("range")){
             $range=json_decode($request->get("range"));

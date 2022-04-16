@@ -27,6 +27,7 @@ class CustomerResource extends JsonResource
             'user_id' => $this->user_id,
             'created_at' => $this->created_at,
             'payment_verified' => $this->payment_verified ? "Yes":"No",
+            'payment_verified_b' => $this->payment_verified?true:false,
             'document' => $this->document ? url("storage/documents/".$this->document) : null,
             'user' => $this->user
 

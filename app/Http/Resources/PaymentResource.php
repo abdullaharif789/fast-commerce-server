@@ -26,6 +26,7 @@ class PaymentResource extends JsonResource
             'fee' => $this->fee,
             'advance' => $this->advance,
             'sharing' => $this->sharing,
+            'payment_verified_b' => $this->payment_verified?true:false,
         ];
     }
 }
