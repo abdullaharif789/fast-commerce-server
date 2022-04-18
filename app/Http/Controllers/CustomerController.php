@@ -24,6 +24,9 @@ class CustomerController extends BaseController
             if(isset($filter->name)){
                 $users=$users->where('name','like',"%".strtolower($filter->name)."%");
             }
+            if(isset($filter->user_id)){
+                $users=$users->where('user_id',$filter->user_id);
+            }
             $count=$users->get()->count();
         }
         if($request->get("user_id")){
@@ -57,6 +60,7 @@ class CustomerController extends BaseController
             'service'=> 'required',
             'date'=> 'required',
             'company'=> 'required',
+            // 'document'=> 'required',
             'advance'=> 'required|numeric|min:0',
             'fee'=> 'required|numeric|min:0',
             'sharing'=> 'required|numeric|min:0|max:100',
