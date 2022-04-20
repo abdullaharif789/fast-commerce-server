@@ -60,7 +60,7 @@ class CustomerController extends BaseController
             'service'=> 'required',
             'date'=> 'required',
             'company'=> 'required',
-            // 'document'=> 'required',
+            'document'=> 'required',
             'advance'=> 'required|numeric|min:0',
             'fee'=> 'required|numeric|min:0',
             'sharing'=> 'required|numeric|min:0|max:100',

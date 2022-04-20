@@ -21,6 +21,7 @@ class PaymentResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'country' => $this->country,
+            'company' => $this->company,
             'date' => $this->date,
             'remaining_days' => $date_day - $now_day,
             'fee' => $this->fee,
