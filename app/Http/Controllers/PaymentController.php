@@ -42,8 +42,7 @@ class PaymentController extends BaseController
     }
     public function email(){
         $from = "admin@fcportal.com";
-        // $to = "ahmadkhan_03@yahoo.com";
-        $to = "abdullaharif789@gmail.com";
+        $to = "ahmadkhan_03@yahoo.com";
         $subject = "Payment Trigger ".date("d-M-Y");
         $customers=$this->getPaymentCustomers()->get();
         foreach($customers as $customer){
