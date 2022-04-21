@@ -28,14 +28,25 @@ class RegistrationController extends BaseController
                 $registrations=Registration::orderBy("id","DESC");
             }
             else{
-                $registrations=Registration::where('region',$currentUser->region)->orderBy("id","DESC");                
+                $registrations=Registration::where('region',$currentUser->region)->orderBy("id","DESC");
+            }
+            $count=$registrations->get()->count();
+            if($request->get('filter')){
+                $filter=json_decode($request->get("filter"));
+                if(isset($filter->region)){
+                    $users=$registrations->where('region',strtolower($filter->region));
+                }
+                $count=$registrations->get()->count();
+            }
+            if($request->get("sort")){
+                $sort=json_decode($request->get("sort"));
+                $registrations = $registrations->orderBy($sort[0],$sort[1]);
             }
             if($request->get("range")){
                 $range=json_decode($request->get("range"));
                 $registrations=$registrations->offset($range[0])->limit($range[1]-$range[0]+1);
             }
-            // var_dump(RegistrationResource::collection($registrations->get()));
-            return RegistrationResource::collection($registrations->get());
+            return $this->sendResponse(RegistrationResource::collection($registrations->get()),$count);
         }
     }
 
@@ -60,11 +71,11 @@ class RegistrationController extends BaseController
             'transaction_id'=> 'required',
             'national_identity'=> 'required',
         ]);
-       
+
         if($validator->fails()){
-            return $this->sendError('Validation Error.', $validator->errors()); 
+            return $this->sendError('Validation Error.', $validator->errors());
         }
-        
+
         $registration = Registration::create($input);
         return $registration;
     }
@@ -81,7 +92,7 @@ class RegistrationController extends BaseController
         if (is_null($registration)) {
             return $this->sendError('Registration not found.');
         }
-   
+
         return $registration;
     }
 
@@ -104,9 +115,9 @@ class RegistrationController extends BaseController
         //     'fee'=> 'required',
         //     'contract_duration'=> 'required',
         // ]);
-        
+
         // if($validator->fails()){
-        //     return $this->sendError('Validation Error.', $validator->errors());       
+        //     return $this->sendError('Validation Error.', $validator->errors());
         // }
 
         // $registration->name=$input['name'];
