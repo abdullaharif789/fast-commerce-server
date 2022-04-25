@@ -68,6 +68,7 @@ class RegistrationController extends BaseController
             'region'=> 'required',
             'course'=> 'required',
             'fee'=> 'required',
+            'batch'=> 'batch',
             'transaction_id'=> 'required',
             'national_identity'=> 'required',
         ]);
@@ -95,42 +96,6 @@ class RegistrationController extends BaseController
 
         return $registration;
     }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Registration $registration)
-    {
-        //
-        $input = $request->all();
-        // $validator = Validator::make($input, [
-        //     'name' => 'required',
-        //     'country'=> 'required',
-        //     'service'=> 'required',
-        //     'date'=> 'required',
-        //     'fee'=> 'required',
-        //     'contract_duration'=> 'required',
-        // ]);
-
-        // if($validator->fails()){
-        //     return $this->sendError('Validation Error.', $validator->errors());
-        // }
-
-        // $registration->name=$input['name'];
-        // $registration->country=$input['country'];
-        // $registration->service=$input['service'];
-        // $registration->date=$input['date'];
-        // $registration->fee=$input['fee'];
-        // $registration->contract_duration=$input['contract_duration'];
-        $registration->save();
-
-        return $registration;
-    }
-
     /**
      * Remove the specified resource from storage.
      *

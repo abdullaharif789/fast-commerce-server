@@ -18,6 +18,7 @@ class Registration extends Model
     'course',
     'fee',
     'transaction_id',
-    'national_identity'
+    'national_identity',
+    'batch'
     ];
 }
