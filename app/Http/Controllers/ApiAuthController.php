@@ -18,7 +18,7 @@ class ApiAuthController extends BaseController
         ]);
 
         if ($validator->fails()){
-            return $this->sendError('Validation Error.', $validator->errors()); 
+            return $this->sendError('Validation Error.', $validator->errors());
         }
 
         $user = User::where('username', $request->username)->first();
@@ -29,11 +29,11 @@ class ApiAuthController extends BaseController
                 return $this->sendResponse($response);
             } else {
                 $response = ["message" => "Password mismatch"];
-                return $this->sendResponse($response,422);
+                return $this->sendResponse($response,0,422);
             }
         } else {
             $response = ["message" => "User does not exist"];
-            return $this->sendResponse($response,422);
+            return $this->sendResponse($response,0,422);
         }
     }
     public function logout (Request $request) {
