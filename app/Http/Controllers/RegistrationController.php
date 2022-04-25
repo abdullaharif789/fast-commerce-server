@@ -68,7 +68,7 @@ class RegistrationController extends BaseController
             'region'=> 'required',
             'course'=> 'required',
             'fee'=> 'required',
-            'batch'=> 'batch',
+            'batch'=> 'required',
             'transaction_id'=> 'required',
             'national_identity'=> 'required',
         ]);
