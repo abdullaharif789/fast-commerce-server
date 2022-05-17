@@ -63,7 +63,7 @@ class RegistrationController extends BaseController
         $validator = Validator::make($input, [
             'first_name' => 'required',
             'last_name'=> 'required',
-            'email'=> 'required',
+            'email'=> 'required|unique:registrations',
             'contact'=> 'required',
             'region'=> 'required',
             'course'=> 'required',
